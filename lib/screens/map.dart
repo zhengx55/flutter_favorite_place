@@ -6,8 +6,8 @@ class MapScreen extends StatefulWidget {
   const MapScreen({
     super.key,
     this.location = const PlaceLocation(
-      latitude: 37.422,
-      longitude: -122.084,
+      latitude: 43.7758,
+      longitude: -79.3296,
       address: '',
     ),
     this.isSelecting = true,
@@ -24,7 +24,10 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
-
+  final CameraPosition _kGooglePlex = const CameraPosition(
+    target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 14.4746,
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +44,7 @@ class _MapScreenState extends State<MapScreen> {
               ),
           ]),
       body: GoogleMap(
+        mapType: MapType.hybrid,
         onTap: !widget.isSelecting
             ? null
             : (position) {
@@ -48,13 +52,7 @@ class _MapScreenState extends State<MapScreen> {
                   _pickedLocation = position;
                 });
               },
-        initialCameraPosition: CameraPosition(
-          target: LatLng(
-            widget.location.latitude,
-            widget.location.longitude,
-          ),
-          zoom: 16,
-        ),
+        initialCameraPosition: _kGooglePlex,
         markers: (_pickedLocation == null && widget.isSelecting)
             ? {}
             : {
